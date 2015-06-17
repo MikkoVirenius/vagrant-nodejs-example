@@ -95,19 +95,20 @@ class nginx {
            }',
       notify => Service["nginx"]
   }
+  
   file { "/etc/nginx/sites-enabled/somehub.dev":
       require => File["/etc/nginx/sites-available/somehub.dev"],
       ensure => "link",
       target => "/etc/nginx/sites-available/somehub.dev",
       notify => Service["nginx"]
   }
+  
+  file { "/etc/nginx/sites-enabled/default":
+      require => Package["nginx"],
+      ensure  => absent,
+      notify  => Service["nginx"]
+  }
 
-}
-
-file { "/etc/nginx/sites-enabled/default":
-    require => Package["nginx"],
-    ensure  => absent,
-    notify  => Service["nginx"]
 }
 
 class mongodb {
